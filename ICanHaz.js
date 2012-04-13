@@ -475,7 +475,18 @@ var Mustache = function () {
                 ich.templates[name] = templateString;
                 ich[name] = function (data, raw) {
                     data = data || {};
-                    var result = Mustache.to_html(ich.templates[name], data, ich.templates);
+                    // Allow either Handlebars or Mustache to be used for
+                    // templates, depending on which is present.  If both are
+                    // present, select Mustache by default.  Allow user to
+                    // select Mustache when both are present by setting
+                    // ich.useHandlebars to true.
+                    var result;
+                    if (typeof Handlebars != "undefined" && (typeof Mustache == "undefined" || ich.useHandlebars)) {
+                        var handlebarsTemplate = Handlebars.compile(ich.templates[name]);
+                        result = handlebarsTemplate(data, { partials: ich.templates });
+                    } else if (Mustache) {
+                        result = Mustache.to_html(ich.templates[name], data, ich.templates);
+                    }
                     return (ich.$ && !raw) ? ich.$(result) : result;
                 };
             }
