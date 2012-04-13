@@ -34,11 +34,9 @@ test("renders partials", function() {
   expect(1);
   var view = {
       name: "Joe",
-      winnings: {
-        value: 1000,
-        taxed_value: function() {
-          return this.value - (this.value * 0.4);
-        }
+      value: 1000,
+      taxed_value: function() {
+        return this.value - (this.value * 0.4);
       }
   };
   equal(ich.welcome(view, true), "<p>Welcome, Joe! You just won $1000 (which is $600 after tax)</p>");
@@ -51,11 +49,9 @@ test("renders partials added at runtime", function() {
   expect(1);
   var view = {
       name: "Joe",
-      winnings2: {
-        value: 1000,
-        taxed_value: function() {
-          return this.value - (this.value * 0.4);
-        }
+      value: 1000,
+      taxed_value: function() {
+        return this.value - (this.value * 0.4);
       }
   };
   equal(ich.welcome2(view, true), 'Welcome, Joe! You just won $1000 (which is $600 after tax)');
